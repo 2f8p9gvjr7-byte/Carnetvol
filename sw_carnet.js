@@ -1,25 +1,16 @@
-const CACHE_NAME = 'carnet-vol-v3';
-
-// Cache these files individually - do not fail if one is missing
-const ASSETS = [
-  './index.html',
-  './manifest.json',
-  './icon-192.png',
-  './icon-512.png'
-];
+const CACHE_NAME = 'carnet-vol-v4';
 
 self.addEventListener('install', function(e) {
+  // Cache ONLY index.html - the most important file
   e.waitUntil(
-    caches.open(CACHE_NAME).then(function(cache) {
-      // Cache each file individually - ignore failures (missing icons etc)
-      return Promise.all(
-        ASSETS.map(function(url) {
-          return cache.add(url).catch(function(err) {
-            console.log('Cache skip:', url, err);
-          });
-        })
-      );
+    fetch('./index.html').then(function(response) {
+      return caches.open(CACHE_NAME).then(function(cache) {
+        return cache.put('./index.html', response);
+      });
     }).then(function() {
+      return self.skipWaiting();
+    }).catch(function(err) {
+      console.log('Install error:', err);
       return self.skipWaiting();
     })
   );
@@ -38,27 +29,53 @@ self.addEventListener('activate', function(e) {
   );
 });
 
-// Cache first - guaranteed offline
 self.addEventListener('fetch', function(e) {
   if (e.request.method !== 'GET') return;
+  
+  var url = e.request.url;
+  
+  // For navigate requests (opening the app) - cache first
+  if (e.request.mode === 'navigate') {
+    e.respondWith(
+      caches.match('./index.html').then(function(cached) {
+        if (cached) {
+          // Update cache in background
+          fetch(e.request).then(function(r) {
+            if (r && r.status === 200) {
+              caches.open(CACHE_NAME).then(function(c) {
+                c.put('./index.html', r);
+              });
+            }
+          }).catch(function() {});
+          return cached;
+        }
+        return fetch(e.request).then(function(r) {
+          if (r && r.status === 200) {
+            caches.open(CACHE_NAME).then(function(c) {
+              c.put('./index.html', r.clone());
+            });
+          }
+          return r;
+        });
+      })
+    );
+    return;
+  }
+  
+  // For all other requests - cache first
   e.respondWith(
     caches.match(e.request).then(function(cached) {
-      if (cached) {
-        // Update cache in background
-        fetch(e.request).then(function(r) {
-          if (r && r.status === 200) {
-            caches.open(CACHE_NAME).then(function(c) { c.put(e.request, r.clone()); });
-          }
-        }).catch(function() {});
-        return cached;
-      }
+      if (cached) return cached;
       return fetch(e.request).then(function(r) {
         if (r && r.status === 200) {
-          caches.open(CACHE_NAME).then(function(c) { c.put(e.request, r.clone()); });
+          var clone = r.clone();
+          caches.open(CACHE_NAME).then(function(c) {
+            c.put(e.request, clone);
+          });
         }
         return r;
       }).catch(function() {
-        return new Response('Hors ligne', { status: 503 });
+        return caches.match('./index.html');
       });
     })
   );
