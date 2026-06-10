@@ -8,8 +8,15 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Carnet Vol">
-<link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="icon-192.png">
+<link id="manifestLink" rel="manifest">
+<script>
+(function(){
+  var m='{\n  "name": "Carnet de Vol",\n  "short_name": "Carnet Vol",\n  "description": "Carnet de vol horodateur UTC paiement validité",\n  "display": "standalone",\n  "orientation": "portrait",\n  "background_color": "#0d1b35",\n  "theme_color": "#0d1b35",\n  "start_url": ".",\n  "icons": [{"src": "data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 180 180\'%3E%3Crect width=\'180\' height=\'180\' rx=\'40\' fill=\'%230d1b35\'/%3E%3Crect x=\'10\' y=\'10\' width=\'160\' height=\'4\' rx=\'2\' fill=\'%23f0a500\'/%3E%3Cg transform=\'translate(90,95) rotate(-10)\'%3E%3Cellipse cx=\'0\' cy=\'0\' rx=\'52\' ry=\'10\' fill=\'%23f0a500\'/%3E%3Crect x=\'-8\' y=\'-32\' width=\'16\' height=\'52\' rx=\'8\' fill=\'%23f0a500\'/%3E%3Cellipse cx=\'0\' cy=\'-28\' rx=\'20\' ry=\'8\' fill=\'%23f0a500\'/%3E%3Crect x=\'-3\' y=\'18\' width=\'6\' height=\'18\' rx=\'3\' fill=\'%23f0a500\'/%3E%3Cellipse cx=\'0\' cy=\'22\' rx=\'12\' ry=\'5\' fill=\'%23f0a500\'/%3E%3C/g%3E%3C/svg%3E", "sizes": "180x180", "type": "image/svg+xml"}]\n}';
+  var b=new Blob([m],{type:'application/json'});
+  document.getElementById('manifestLink').href=URL.createObjectURL(b);
+})();
+</script>
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='40' fill='%230d1b35'/%3E%3Crect x='10' y='10' width='160' height='4' rx='2' fill='%23f0a500'/%3E%3Cg transform='translate(90,95) rotate(-10)'%3E%3Cellipse cx='0' cy='0' rx='52' ry='10' fill='%23f0a500'/%3E%3Crect x='-8' y='-32' width='16' height='52' rx='8' fill='%23f0a500'/%3E%3Cellipse cx='0' cy='-28' rx='20' ry='8' fill='%23f0a500'/%3E%3Crect x='-3' y='18' width='6' height='18' rx='3' fill='%23f0a500'/%3E%3Cellipse cx='0' cy='22' rx='12' ry='5' fill='%23f0a500'/%3E%3C/g%3E%3C/svg%3E">
 <title>Carnet de Vol</title>
 <style>
 :root {
@@ -328,7 +335,49 @@ document.getElementById('delai_jours').addEventListener('input',calculDate);
 restaurer();calcul();
 </script>
 <script>
-if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').then(function(r){console.log('SW:',r.scope);}).catch(function(e){console.log('SW error:',e);});});}
+if('serviceWorker' in navigator){
+  window.addEventListener('load',function(){
+    var swCode=[
+      "const CACHE='carnet-vol-v3';",
+      "const FILES=['./'];",
+      "self.addEventListener('install',function(e){",
+      "  e.waitUntil(caches.open(CACHE).then(function(c){",
+      "    return c.addAll(FILES);",
+      "  }).then(function(){return self.skipWaiting();}));",
+      "});",
+      "self.addEventListener('activate',function(e){",
+      "  e.waitUntil(caches.keys().then(function(ks){",
+      "    return Promise.all(ks.filter(function(k){return k!==CACHE;}).map(function(k){return caches.delete(k);}));",
+      "  }).then(function(){return self.clients.claim();}));",
+      "});",
+      "self.addEventListener('fetch',function(e){",
+      "  if(e.request.method!=='GET')return;",
+      "  e.respondWith(",
+      "    caches.match(e.request).then(function(cached){",
+      "      if(cached){",
+      "        fetch(e.request).then(function(r){",
+      "          if(r&&r.status===200){caches.open(CACHE).then(function(c){c.put(e.request,r.clone());});}",
+      "        }).catch(function(){});",
+      "        return cached;",
+      "      }",
+      "      return fetch(e.request).then(function(r){",
+      "        if(r&&r.status===200){var cl=r.clone();caches.open(CACHE).then(function(c){c.put(e.request,cl);});}",
+      "        return r;",
+      "      }).catch(function(){return new Response('',{status:503});});",
+      "    })",
+      "  );",
+      "});"
+    ].join('\n');
+    var blob=new Blob([swCode],{type:'text/javascript'});
+    var url=URL.createObjectURL(blob);
+    navigator.serviceWorker.register(url,{scope:'./'}).then(function(r){
+      console.log('SW inline OK');
+    }).catch(function(e){
+      // Fallback: try sw.js if exists
+      navigator.serviceWorker.register('sw.js').catch(function(){});
+    });
+  });
+}
 </script>
 </body>
 </html>
