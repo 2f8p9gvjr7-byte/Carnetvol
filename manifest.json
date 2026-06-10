@@ -1,9 +1,9 @@
 {
   "name": "Carnet de Vol",
-  "short_name": "Vol",
+  "short_name": "Carnet Vol",
   "description": "Carnet de vol : horodateur, heures UTC, paiement et validité réglementaire",
-  "start_url": "/CARNET-VOL/index.html",
-  "scope": "/CARNET-VOL/",
+  "start_url": "/Carnetvol/index.html",
+  "scope": "/Carnetvol/",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#0d1b35",
