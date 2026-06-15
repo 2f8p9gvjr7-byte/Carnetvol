@@ -134,6 +134,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
   <label>&#9992; Avion</label>
   <select class="avion-select" id="avionSelect" onchange="onAvionChange()"></select>
   <button class="btn-add-avion" onclick="ajouterAvion()" title="Ajouter un avion">&#43;</button>
+  <button class="btn-add-avion" onclick="supprimerAvion()" title="Supprimer cet avion" style="background:rgba(231,76,60,0.15);border-color:var(--red);color:var(--red);">&#128465;</button>
 </div>
 
 <!-- TABS -->
@@ -266,6 +267,24 @@ function ajouterAvion(){
   avions.push(immat);
   saveAvions();
   currentAvion = immat;
+  localStorage.setItem('cdv_avion', currentAvion);
+  buildAvionSelect();
+  restaurer();
+  calcul();
+}
+
+function supprimerAvion(){
+  if(avions.length <= 1){ alert('Impossible de supprimer le dernier avion.'); return; }
+  var immatFmt = 'F-' + currentAvion.slice(1);
+  if(!confirm('Supprimer ' + immatFmt + ' et toutes ses données ?')) return;
+  // Supprimer toutes les données de cet avion
+  var FIELDS_LOCAL = ['heure_arr','utc_offset','horo_dep','horo_arr','cout_heure','solde','reserve_pct','date_vol','delai_jours'];
+  FIELDS_LOCAL.forEach(function(id){ localStorage.removeItem('cdv_'+id+'_'+currentAvion); });
+  localStorage.removeItem('cdv_valid_'+currentAvion);
+  // Retirer de la liste
+  avions = avions.filter(function(a){ return a !== currentAvion; });
+  saveAvions();
+  currentAvion = avions[0];
   localStorage.setItem('cdv_avion', currentAvion);
   buildAvionSelect();
   restaurer();
