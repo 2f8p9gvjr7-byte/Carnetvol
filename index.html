@@ -398,7 +398,10 @@ function renderCountdown(){
       var statut=jr<=0?'D\u00e9lai d\u00e9pass\u00e9 \u2014 Instructeur requis':jr<=10?'URGENCE \u2014 Voler imm\u00e9diatement !':jr<=20?'Attention \u2014 Bient\u00f4t expir\u00e9':'Validit\u00e9 OK';
       card.innerHTML='<div class="countdown-head"><div><div class="countdown-immat">'+immatFmt+'</div>'
         +'<div class="countdown-sub">Dernier vol : '+fmtDate(dateVol)+' &middot; D\u00e9lai : '+delai+' j</div></div>'
-        +'<span style="font-size:26px">'+icon+'</span></div>'
+        +'<div style="display:flex;align-items:center;gap:8px;">'
+        +'<span style="font-size:26px">'+icon+'</span>'
+        +'<button onclick="effacerCountdown(\''+immat+'\')" style="background:rgba(231,76,60,0.15);border:1px solid var(--red);color:var(--red);border-radius:6px;padding:6px 10px;font-size:12px;cursor:pointer;">&#128465;</button>'
+        +'</div></div>'
         +'<div class="countdown-big">'
           +'<div class="countdown-num '+cls+'">'+(jr<=0?Math.abs(jr):jr)+'</div>'
           +'<div class="countdown-unit '+cls+'">jours '+(jr<=0?'de d\u00e9passement':'restants')+'</div>'
@@ -408,6 +411,12 @@ function renderCountdown(){
     }
     list.appendChild(card);
   });
+}
+
+function effacerCountdown(immat){
+  if(!confirm('Effacer le countdown de '+immat.replace('F','F-')+' ?')) return;
+  localStorage.removeItem('cdv_valid_'+immat);
+  renderCountdown();
 }
 
 // ── STOCKAGE PAR AVION ──
@@ -423,11 +432,14 @@ function restaurer(){
     var val=localStorage.getItem('cdv_'+id+'_'+currentAvion);
     var el=document.getElementById(id);
     if(!el) return;
-    if(val!==null&&val!=='') el.value=val;
-    else if(id==='utc_offset') el.value='1';
-    else if(id==='reserve_pct') el.value='25';
-    else if(id==='delai_jours') el.value='60';
-    else el.value='';
+    if(val!==null&&val!==''){
+      el.value=val;
+    } else if(val===null){
+      if(id==='utc_offset') el.value='1';
+      else if(id==='reserve_pct') el.value='25';
+      else if(id==='delai_jours') el.value='60';
+      else el.value='';
+    }
   });
 }
 function clearAll(){
