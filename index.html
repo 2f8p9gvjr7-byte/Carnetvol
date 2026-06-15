@@ -14,177 +14,145 @@
 <style>
 :root {
   --bg:#0d1b35; --panel:#112044; --panel2:#0a1628; --border:#1e3060;
-  --orange:#f0a500; --orange-dark:#c88800; --orange-light:rgba(240,165,0,0.12);
+  --orange:#f0a500; --orange-dark:#c88800;
   --green:#2ecc71; --green-bg:rgba(46,204,113,0.15); --green-border:#27ae60;
-  --red:#e74c3c; --blue-accent:#4a9eff;
+  --red:#e74c3c; --blue:#4a9eff;
   --text:#e8eef8; --text-mid:#8aa0c0; --text-dim:#4a6080;
   --sans:-apple-system,'SF Pro Display',Arial,sans-serif;
   --mono:'Courier New',Courier,monospace;
   --radius:6px;
 }
-* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-body { background:var(--bg); color:var(--text); font-family:var(--sans); min-height:100vh; padding-bottom:32px; }
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:100vh;padding-bottom:32px;}
 
-.app-header { background:var(--panel2); border-bottom:2px solid var(--orange); padding:12px 14px 10px; display:flex; align-items:center; gap:10px; }
-.app-header .icon { font-size:20px; }
-.app-header h1 { font-family:var(--sans); font-weight:700; font-size:15px; color:var(--text); letter-spacing:1px; text-transform:uppercase; flex:1; }
-.app-header .sub { font-size:9px; color:var(--text-dim); letter-spacing:1px; }
+/* HEADER */
+.app-header{background:var(--panel2);border-bottom:2px solid var(--orange);padding:12px 14px 10px;display:flex;align-items:center;gap:10px;}
+.app-header .icon{font-size:20px;}
+.app-header h1{font-weight:700;font-size:15px;color:var(--text);letter-spacing:1px;text-transform:uppercase;flex:1;}
+.app-header .sub{font-size:9px;color:var(--text-dim);letter-spacing:1px;}
 
-/* AVION SELECTOR */
-.avion-bar { background:var(--panel); border-bottom:1px solid var(--border); padding:10px 14px; display:flex; align-items:center; gap:10px; }
-.avion-bar label { font-size:10px; font-weight:700; color:var(--text-mid); text-transform:uppercase; letter-spacing:1px; white-space:nowrap; }
-.avion-select { flex:1; background:var(--orange); color:#1a1000; border:none; border-radius:8px; padding:10px 12px; font-size:16px; font-weight:800; font-family:var(--mono); text-align:center; -webkit-appearance:none; appearance:none; cursor:pointer; }
+/* AVION BAR */
+.avion-bar{background:var(--panel);border-bottom:1px solid var(--border);padding:8px 12px;display:flex;align-items:center;gap:8px;}
+.avion-bar label{font-size:10px;font-weight:700;color:var(--text-mid);text-transform:uppercase;letter-spacing:1px;white-space:nowrap;flex-shrink:0;}
+.avion-select{flex:1;background:var(--orange);color:#1a1000;border:none;border-radius:8px;padding:9px 10px;font-size:15px;font-weight:800;font-family:var(--mono);text-align:center;-webkit-appearance:none;cursor:pointer;}
+.btn-add-avion{background:var(--panel2);border:1px solid var(--orange);color:var(--orange);border-radius:8px;padding:9px 12px;font-size:18px;font-weight:700;cursor:pointer;flex-shrink:0;}
 
-.nav-tabs { background:var(--panel); border-bottom:1px solid var(--border); display:flex; overflow-x:auto; scrollbar-width:none; }
-.nav-tabs::-webkit-scrollbar { display:none; }
-.nav-tab { padding:8px 14px; font-size:11px; font-weight:600; color:var(--text-mid); white-space:nowrap; border-bottom:2px solid transparent; cursor:pointer; letter-spacing:0.5px; flex-shrink:0; }
-.nav-tab.active { color:var(--orange); border-bottom-color:var(--orange); }
+/* TABS */
+.nav-tabs{background:var(--panel);border-bottom:1px solid var(--border);display:flex;overflow-x:auto;scrollbar-width:none;}
+.nav-tabs::-webkit-scrollbar{display:none;}
+.nav-tab{padding:9px 13px;font-size:11px;font-weight:600;color:var(--text-mid);white-space:nowrap;border-bottom:2px solid transparent;cursor:pointer;letter-spacing:0.5px;flex-shrink:0;}
+.nav-tab.active{color:var(--orange);border-bottom-color:var(--orange);}
 
-.tab-content { display:none; }
-.tab-content.active { display:block; }
+/* TAB PANELS */
+.tab-panel{display:none;padding:12px;flex-direction:column;gap:12px;}
+.tab-panel.active{display:flex;}
 
-.content { padding:12px; display:flex; flex-direction:column; gap:12px; }
+/* CARDS */
+.card{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;}
+.section-title{display:flex;align-items:center;gap:8px;padding:8px 12px 6px;border-bottom:1px solid var(--border);}
+.section-title .dot{width:8px;height:8px;background:var(--orange);border-radius:50%;flex-shrink:0;}
+.section-title h2{font-size:11px;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:2px;}
 
-.section-title { display:flex; align-items:center; gap:8px; padding:8px 12px 6px; border-bottom:1px solid var(--border); }
-.section-title .dot { width:8px; height:8px; background:var(--orange); border-radius:50%; flex-shrink:0; }
-.section-title h2 { font-size:11px; font-weight:700; color:var(--orange); text-transform:uppercase; letter-spacing:2px; }
+/* FIELDS */
+.fields{padding:12px;display:flex;flex-direction:column;gap:10px;}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.field{display:flex;flex-direction:column;gap:5px;}
+.field label{font-size:9px;font-weight:600;color:var(--text-mid);text-transform:uppercase;letter-spacing:1.5px;}
+.field input{background:var(--panel2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:var(--mono);font-size:22px;font-weight:500;padding:10px 8px;width:100%;outline:none;text-align:center;-webkit-appearance:none;}
+.field input:focus{border-color:var(--orange);}
+.field input::placeholder{color:var(--text-dim);font-size:15px;}
+.field .hint{font-size:9px;color:var(--text-dim);text-align:center;}
+.divider{height:1px;background:var(--border);margin:4px 0;}
 
-.card { background:var(--panel); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; }
+/* RESULTS */
+.results{display:flex;flex-direction:column;}
+.result-row{display:flex;align-items:center;justify-content:space-between;padding:11px 12px;border-bottom:1px solid var(--border);gap:8px;}
+.result-row:last-child{border-bottom:none;}
+.result-label{font-size:12px;color:var(--text-mid);flex:1;}
+.result-value{font-family:var(--mono);font-size:20px;font-weight:500;text-align:right;white-space:nowrap;}
+.result-sep{padding:6px 12px 4px;font-size:9px;font-weight:700;color:var(--text-dim);text-transform:uppercase;letter-spacing:2px;background:var(--panel2);border-bottom:1px solid var(--border);}
+.val-orange{color:var(--orange)!important;}.val-green{color:var(--green)!important;}.val-blue{color:var(--blue)!important;}.val-red{color:var(--red)!important;}
+.utc-note{font-size:9px;color:var(--text-dim);text-align:center;padding:7px 12px;background:var(--panel2);border-top:1px solid var(--border);}
+.info-box{border-top:1px dashed var(--border);padding:10px 12px;font-size:10px;color:var(--text-dim);line-height:1.7;}
+.info-box strong{color:var(--orange);}
 
-.fields { padding:12px; display:flex; flex-direction:column; gap:10px; }
-.field-row { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
-.field { display:flex; flex-direction:column; gap:5px; }
-.field label { font-size:9px; font-weight:600; color:var(--text-mid); text-transform:uppercase; letter-spacing:1.5px; }
-.field input { background:var(--panel2); border:1px solid var(--border); border-radius:4px; color:var(--text); font-family:var(--mono); font-size:22px; font-weight:500; padding:10px 8px; width:100%; outline:none; transition:border-color 0.15s; -webkit-appearance:none; text-align:center; }
-.field input:focus { border-color:var(--orange); box-shadow:0 0 0 1px var(--orange-dark); }
-.field input::placeholder { color:var(--text-dim); font-size:15px; }
-.field .hint { font-size:9px; color:var(--text-dim); text-align:center; }
-.divider { height:1px; background:var(--border); margin:4px 0; }
+/* APPRO */
+.appro-bar{padding:13px 14px;border:1px solid var(--green-border);border-radius:4px;display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--green-bg);}
+.appro-bar.needed{background:rgba(240,165,0,0.1);border-color:var(--orange);}
+.appro-label{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:var(--green);}
+.appro-bar.needed .appro-label{color:var(--orange);}
+.appro-value{font-family:var(--mono);font-size:24px;font-weight:700;color:var(--green);}
+.appro-bar.needed .appro-value{color:var(--orange);}
 
-.results { display:flex; flex-direction:column; }
-.result-row { display:flex; align-items:center; justify-content:space-between; padding:11px 12px; border-bottom:1px solid var(--border); gap:8px; }
-.result-row:last-child { border-bottom:none; }
-.result-label { font-size:12px; color:var(--text-mid); font-weight:400; line-height:1.3; flex:1; }
-.result-value { font-family:var(--mono); font-size:20px; font-weight:500; text-align:right; white-space:nowrap; color:var(--text); }
-.result-sep { padding:6px 12px 4px; font-size:9px; font-weight:700; color:var(--text-dim); text-transform:uppercase; letter-spacing:2px; background:var(--panel2); border-bottom:1px solid var(--border); }
-.val-orange { color:var(--orange) !important; } .val-green { color:var(--green) !important; } .val-blue { color:var(--blue-accent) !important; } .val-red { color:var(--red) !important; }
+/* DATE BAR */
+.date-bar{padding:13px 14px;border:1px solid var(--border);border-radius:4px;display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.date-bar.ok{background:var(--green-bg);border-color:var(--green-border);}
+.date-bar.warn{background:rgba(240,165,0,0.1);border-color:var(--orange);}
+.date-bar.danger{background:rgba(231,76,60,0.12);border-color:var(--red);}
+.date-label{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;line-height:1.4;}
+.date-bar.ok .date-label{color:var(--green);}.date-bar.warn .date-label{color:var(--orange);}.date-bar.danger .date-label{color:var(--red);}
+.date-value{font-family:var(--mono);font-size:18px;font-weight:700;text-align:right;white-space:nowrap;}
+.date-bar.ok .date-value{color:var(--green);}.date-bar.warn .date-value{color:var(--orange);}.date-bar.danger .date-value{color:var(--red);}
+.days-left{font-size:10px;font-weight:400;opacity:0.8;display:block;}
 
-.appro-bar { margin:0; padding:13px 14px; background:var(--green-bg); border:1px solid var(--green-border); border-radius:4px; display:flex; align-items:center; justify-content:space-between; gap:10px; }
-.appro-bar .appro-label { display:flex; align-items:center; gap:8px; font-size:12px; font-weight:600; color:var(--green); }
-.appro-bar .appro-label .check { font-size:16px; }
-.appro-bar .appro-value { font-family:var(--mono); font-size:24px; font-weight:700; color:var(--green); }
-.appro-bar.ok { background:var(--green-bg); border-color:var(--green-border); }
-.appro-bar.needed { background:rgba(240,165,0,0.1); border-color:var(--orange); }
-.appro-bar.needed .appro-label, .appro-bar.needed .appro-value { color:var(--orange); }
+/* COUNTDOWN */
+.countdown-card{background:var(--panel);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:14px;}
+.countdown-head{background:var(--panel2);padding:10px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);}
+.countdown-immat{font-family:var(--mono);font-size:18px;font-weight:700;color:var(--orange);letter-spacing:2px;}
+.countdown-sub{font-size:10px;color:var(--text-dim);margin-top:2px;}
+.countdown-big{text-align:center;padding:22px 14px 16px;}
+.countdown-num{font-family:var(--mono);font-size:76px;font-weight:700;line-height:1;}
+.countdown-unit{font-size:16px;margin-top:4px;}
+.countdown-statut{font-size:11px;color:var(--text-dim);margin-top:8px;letter-spacing:1px;text-transform:uppercase;}
+.countdown-limite{font-size:10px;color:var(--text-dim);margin-top:6px;}
+.c-ok{color:var(--green);}.c-warn{color:var(--orange);}.c-danger{color:var(--red);}
 
-.utc-note { font-size:9px; color:var(--text-dim); text-align:center; padding:7px 12px; background:var(--panel2); border-top:1px solid var(--border); letter-spacing:1px; }
-.info-box { border-top:1px dashed var(--border); padding:10px 12px; font-size:10px; color:var(--text-dim); line-height:1.7; }
-.info-box strong { color:var(--orange); }
+/* BTN */
+.btn-primary{width:100%;padding:12px;background:var(--orange);border:none;border-radius:8px;color:#1a1000;font-family:var(--sans);font-size:13px;font-weight:700;cursor:pointer;letter-spacing:0.5px;}
+.btn-reset{width:100%;padding:12px;background:transparent;border:1px solid var(--border);color:var(--text-dim);font-family:var(--sans);font-size:12px;font-weight:600;cursor:pointer;border-radius:var(--radius);letter-spacing:1px;text-transform:uppercase;}
 
-.date-bar { margin:0; padding:13px 14px; border:1px solid var(--border); border-radius:4px; display:flex; align-items:center; justify-content:space-between; gap:10px; }
-.date-bar.ok { background:var(--green-bg); border-color:var(--green-border); }
-.date-bar.warn { background:rgba(240,165,0,0.1); border-color:var(--orange); }
-.date-bar.danger { background:rgba(231,76,60,0.12); border-color:var(--red); }
-.date-bar .date-label { display:flex; align-items:center; gap:8px; font-size:12px; font-weight:600; line-height:1.4; }
-.date-bar.ok .date-label { color:var(--green); } .date-bar.warn .date-label { color:var(--orange); } .date-bar.danger .date-label { color:var(--red); }
-.date-bar .date-icon { font-size:16px; }
-.date-bar .date-value { font-family:var(--mono); font-size:18px; font-weight:700; text-align:right; white-space:nowrap; }
-.date-bar.ok .date-value { color:var(--green); } .date-bar.warn .date-value { color:var(--orange); } .date-bar.danger .date-value { color:var(--red); }
-.days-left { font-size:10px; font-weight:400; opacity:0.8; display:block; }
-
-/* ── VALIDITÉ MULTI-AVIONS ── */
-.validite-avion-card {
-  background:var(--panel); border:1px solid var(--border); border-radius:12px; overflow:hidden; margin-bottom:16px;
-}
-.validite-avion-header {
-  background:var(--panel2); padding:10px 14px; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid var(--border);
-}
-.validite-avion-immat { font-family:var(--mono); font-size:18px; font-weight:700; color:var(--orange); letter-spacing:2px; }
-.validite-avion-type { font-size:10px; color:var(--text-dim); }
-
-.countdown-big { text-align:center; padding:20px 14px 14px; }
-.countdown-number { font-family:var(--mono); font-size:72px; font-weight:700; line-height:1; }
-.countdown-unit { font-size:16px; font-weight:400; color:var(--text-mid); margin-top:4px; }
-.countdown-label { font-size:11px; color:var(--text-dim); margin-top:8px; letter-spacing:1px; text-transform:uppercase; }
-.countdown-ok { color:var(--green); }
-.countdown-warn { color:var(--orange); }
-.countdown-danger { color:var(--red); }
-
-.validite-avion-saisie { padding:12px 14px; border-top:1px solid var(--border); background:var(--panel2); }
-.validite-avion-saisie label { font-size:9px; font-weight:700; color:var(--text-mid); text-transform:uppercase; letter-spacing:1px; display:block; margin-bottom:6px; }
-.validite-avion-row { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
-.validite-avion-input { background:var(--bg); border:1px solid var(--border); border-radius:4px; color:var(--text); font-family:var(--mono); font-size:14px; padding:8px; width:100%; outline:none; text-align:center; -webkit-appearance:none; }
-.validite-avion-input:focus { border-color:var(--orange); }
-
-.btn-reset { width:100%; padding:12px; background:transparent; border:1px solid var(--border); color:var(--text-dim); font-family:var(--sans); font-size:12px; font-weight:600; cursor:pointer; border-radius:var(--radius); letter-spacing:1px; text-transform:uppercase; transition:all 0.15s; }
-.btn-reset:active { border-color:var(--red); color:var(--red); }
+/* UPDATE BANNER */
+#updateBanner{display:none;position:fixed;top:0;left:0;right:0;z-index:999;background:var(--orange);color:#1a1000;padding:10px 14px;align-items:center;justify-content:space-between;gap:10px;font-size:13px;font-weight:600;}
 </style>
 </head>
 <body>
 
-<!-- BANDEAU MISE À JOUR -->
-<div id="updateBanner" style="display:none;position:fixed;top:0;left:0;right:0;z-index:999;background:#f0a500;color:#1a1000;padding:10px 14px;align-items:center;justify-content:space-between;gap:10px;font-family:var(--sans);font-size:13px;font-weight:600;">
+<!-- UPDATE BANNER -->
+<div id="updateBanner">
   <span>&#127381; Nouvelle version disponible !</span>
-  <button onclick="applyUpdate()" style="background:#1a1000;color:#f0a500;border:none;border-radius:6px;padding:7px 14px;font-weight:700;font-size:12px;cursor:pointer;">Mettre à jour</button>
+  <button onclick="applyUpdate()" style="background:#1a1000;color:var(--orange);border:none;border-radius:6px;padding:7px 14px;font-weight:700;font-size:12px;cursor:pointer;">Mettre &agrave; jour</button>
 </div>
 
+<!-- HEADER -->
 <div class="app-header">
   <span class="icon">&#9992;&#65039;</span>
-  <div>
-    <h1>Carnet de Vol</h1>
-    <div class="sub">PR&Eacute;VOL &middot; Saisie horodateur &middot; Usage non certifi&eacute;</div>
-  </div>
+  <div><h1>Carnet de Vol</h1><div class="sub">PR&Eacute;VOL &middot; Saisie horodateur &middot; Usage non certifi&eacute;</div></div>
 </div>
 
-<!-- SÉLECTEUR AVION -->
+<!-- AVION SELECTOR -->
 <div class="avion-bar">
   <label>&#9992; Avion</label>
-  <select class="avion-select" id="avionSelect" onchange="onAvionChange()">
-    <option value="FHREJ">F-HREJ</option>
-    <option value="FGLKO">F-GLKO</option>
-  </select>
+  <select class="avion-select" id="avionSelect" onchange="onAvionChange()"></select>
+  <button class="btn-add-avion" onclick="ajouterAvion()" title="Ajouter un avion">&#43;</button>
 </div>
 
-<!-- ONGLETS -->
-<div class="nav-tabs">
-  <div class="nav-tab active" onclick="showTab(0)">1&middot;Horodateur</div>
-  <div class="nav-tab" onclick="showTab(1)">2&middot;Heures</div>
-  <div class="nav-tab" onclick="showTab(2)">3&middot;UTC</div>
-  <div class="nav-tab" onclick="showTab(3)">4&middot;Paiement</div>
-  <div class="nav-tab" onclick="showTab(4)">5&middot;Validit&eacute;</div>
-  <div class="nav-tab" onclick="showTab(5)">&#128197;&middot;Countdown</div>
-</div>
+<!-- TABS -->
+<div class="nav-tabs" id="navTabs"></div>
 
-<!-- ONGLET 1-4 : contenu existant -->
-<div class="tab-content active" id="tab0">
-<div class="content">
+<!-- TAB: HORODATEUR + RESULTATS + PAIEMENT + VALIDITE -->
+<div class="tab-panel active" id="panel-main">
+
   <div class="card">
     <div class="section-title"><div class="dot"></div><h2>Donn&eacute;es &agrave; saisir</h2></div>
     <div class="fields">
       <div class="field-row">
-        <div class="field">
-          <label>Heure arriv&eacute;e locale</label>
-          <input type="number" id="heure_arr" placeholder="1642" inputmode="numeric" min="0" max="2359">
-          <div class="hint">Ex : 1642 pour 16h42</div>
-        </div>
-        <div class="field">
-          <label>D&eacute;calage UTC</label>
-          <input type="number" id="utc_offset" placeholder="1" inputmode="numeric" value="1">
-          <div class="hint">&Eacute;t&eacute; +1 &middot; Hiver +2</div>
-        </div>
+        <div class="field"><label>Heure arriv&eacute;e locale</label><input type="number" id="heure_arr" placeholder="1642" inputmode="numeric" min="0" max="2359"><div class="hint">Ex : 1642 pour 16h42</div></div>
+        <div class="field"><label>D&eacute;calage UTC</label><input type="number" id="utc_offset" placeholder="1" inputmode="numeric" value="1"><div class="hint">&Eacute;t&eacute; +1 &middot; Hiver +2</div></div>
       </div>
       <div class="divider"></div>
       <div class="field-row">
-        <div class="field">
-          <label>Horodateur d&eacute;part</label>
-          <input type="number" id="horo_dep" placeholder="9340.7" inputmode="decimal" step="0.1">
-          <div class="hint">Ex : 9340.7</div>
-        </div>
-        <div class="field">
-          <label>Horodateur arriv&eacute;e</label>
-          <input type="number" id="horo_arr" placeholder="9341.4" inputmode="decimal" step="0.1">
-          <div class="hint">Ex : 9341.4</div>
-        </div>
+        <div class="field"><label>Horodateur d&eacute;part</label><input type="number" id="horo_dep" placeholder="9340.7" inputmode="decimal" step="0.1"><div class="hint">Ex : 9340.7</div></div>
+        <div class="field"><label>Horodateur arriv&eacute;e</label><input type="number" id="horo_arr" placeholder="9341.4" inputmode="decimal" step="0.1"><div class="hint">Ex : 9341.4</div></div>
       </div>
     </div>
   </div>
@@ -207,23 +175,11 @@ body { background:var(--bg); color:var(--text); font-family:var(--sans); min-hei
     <div class="section-title"><div class="dot"></div><h2>Paiement &amp; Solde</h2></div>
     <div class="fields">
       <div class="field-row">
-        <div class="field">
-          <label>Co&ucirc;t / heure (&euro;)</label>
-          <input type="number" id="cout_heure" placeholder="150" inputmode="decimal" step="0.01">
-          <div class="hint">Ex : 150,00 &euro;</div>
-        </div>
-        <div class="field">
-          <label>Solde actuel (&euro;)</label>
-          <input type="number" id="solde" placeholder="200" inputmode="decimal" step="0.01">
-          <div class="hint">Avant ce vol</div>
-        </div>
+        <div class="field"><label>Co&ucirc;t / heure (&euro;)</label><input type="number" id="cout_heure" placeholder="150" inputmode="decimal" step="0.01"><div class="hint">Ex : 150,00 &euro;</div></div>
+        <div class="field"><label>Solde actuel (&euro;)</label><input type="number" id="solde" placeholder="200" inputmode="decimal" step="0.01"><div class="hint">Avant ce vol</div></div>
       </div>
       <div class="field-row">
-        <div class="field">
-          <label>R&eacute;serve &agrave; garder (%)</label>
-          <input type="number" id="reserve_pct" placeholder="25" inputmode="numeric" value="25" min="0" max="100">
-          <div class="hint">% du co&ucirc;t horaire</div>
-        </div>
+        <div class="field"><label>R&eacute;serve &agrave; garder (%)</label><input type="number" id="reserve_pct" placeholder="25" inputmode="numeric" value="25" min="0" max="100"><div class="hint">% du co&ucirc;t horaire</div></div>
       </div>
     </div>
     <div class="results">
@@ -232,28 +188,20 @@ body { background:var(--bg); color:var(--text); font-family:var(--sans); min-hei
       <div class="result-row"><div class="result-label">Solde apr&egrave;s ce vol</div><div class="result-value" id="res_solde">-- &euro;</div></div>
     </div>
     <div style="padding:12px;">
-      <div class="appro-bar ok" id="appro_bar">
-        <div class="appro-label"><span class="check" id="appro_icon">&#9745;</span><span id="appro_label_txt">&Agrave; approvisionner (arrondi 10 &euro;)</span></div>
+      <div class="appro-bar" id="appro_bar">
+        <div class="appro-label"><span id="appro_icon">&#9745;</span><span>&Agrave; approvisionner (arrondi 10 &euro;)</span></div>
         <div class="appro-value" id="res_appro">-- &euro;</div>
       </div>
     </div>
-    <div class="info-box"><strong>R&egrave;gle :</strong> R&eacute;serve = % saisi du co&ucirc;t horaire &agrave; maintenir sur le compte.<br>Montant arrondi aux 10 &euro; les plus proches.</div>
+    <div class="info-box"><strong>R&egrave;gle :</strong> R&eacute;serve = % saisi du co&ucirc;t horaire &agrave; maintenir.<br>Montant arrondi aux 10 &euro; les plus proches.</div>
   </div>
 
   <div class="card">
     <div class="section-title"><div class="dot"></div><h2>Validit&eacute; r&eacute;glementaire</h2></div>
     <div class="fields">
       <div class="field-row">
-        <div class="field">
-          <label>Date du vol</label>
-          <input type="date" id="date_vol" style="font-size:16px;">
-          <div class="hint">Date du vol effectu&eacute;</div>
-        </div>
-        <div class="field">
-          <label>D&eacute;lai r&eacute;glementaire (jours)</label>
-          <input type="number" id="delai_jours" placeholder="60" inputmode="numeric" value="60" min="1">
-          <div class="hint">Ex : 60 jours</div>
-        </div>
+        <div class="field"><label>Date du vol</label><input type="date" id="date_vol" style="font-size:16px;"><div class="hint">Date du vol effectu&eacute;</div></div>
+        <div class="field"><label>D&eacute;lai (jours)</label><input type="number" id="delai_jours" placeholder="60" inputmode="numeric" value="60" min="1"><div class="hint">Ex : 60 jours</div></div>
       </div>
     </div>
     <div class="results">
@@ -262,40 +210,67 @@ body { background:var(--bg); color:var(--text); font-family:var(--sans); min-hei
     </div>
     <div style="padding:12px;">
       <div class="date-bar ok" id="date_bar">
-        <div class="date-label"><span class="date-icon" id="date_icon">&#128197;</span><span id="date_label_txt">En attente de saisie<span class="days-left"></span></span></div>
+        <div class="date-label"><span id="date_icon">&#128197;</span><span id="date_label_txt">En attente de saisie<span class="days-left"></span></span></div>
         <div class="date-value" id="res_jours_restants">-- j</div>
       </div>
     </div>
-    <div style="padding:12px; padding-top:0;">
-      <button onclick="sauverValiditeAvion()" style="width:100%;padding:11px;background:var(--orange);border:none;border-radius:8px;color:#1a1000;font-family:var(--sans);font-size:13px;font-weight:700;cursor:pointer;letter-spacing:0.5px;">
-        &#128190; Enregistrer dans Countdown
-      </button>
+    <div style="padding:0 12px 12px;">
+      <button class="btn-primary" onclick="sauverValiditeAvion()">&#128190; Enregistrer dans Countdown</button>
     </div>
-    <div class="info-box"><strong>R&egrave;gle :</strong> Prochain vol solo obligatoire dans le d&eacute;lai saisi.<br>&Agrave; d&eacute;faut, vol avec instructeur requis avant de revoler seul.</div>
+    <div class="info-box"><strong>R&egrave;gle :</strong> Prochain vol solo obligatoire dans le d&eacute;lai saisi.</div>
   </div>
 
   <button class="btn-reset" onclick="resetAll()">&#8634; &nbsp; R&eacute;initialiser</button>
 </div>
-</div>
 
-<!-- ONGLET COUNTDOWN -->
-<div class="tab-content" id="tab5">
-<div class="content">
+<!-- TAB: COUNTDOWN -->
+<div class="tab-panel" id="panel-countdown">
   <div id="countdownList"></div>
-  <div class="info-box" style="background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);margin-top:4px;">
-    <strong>Comment utiliser :</strong><br>
-    1. S&eacute;lectionnez l&apos;avion en haut<br>
-    2. Dans l&apos;onglet Validit&eacute;, saisissez la date du dernier vol et le d&eacute;lai<br>
-    3. Appuyez sur &laquo;&nbsp;Enregistrer dans Countdown&nbsp;&raquo;<br>
-    4. Revenez ici pour voir le d&eacute;compte
+  <div class="card" style="padding:12px;">
+    <div style="font-size:10px;color:var(--text-dim);line-height:1.8;">
+      <strong style="color:var(--orange);">Comment utiliser :</strong><br>
+      1. S&eacute;lectionnez l'avion en haut<br>
+      2. Onglet principal &rarr; section Validit&eacute;<br>
+      3. Saisissez la date du vol et le d&eacute;lai<br>
+      4. Appuyez sur &laquo; Enregistrer dans Countdown &raquo;<br>
+      5. Revenez ici pour voir le d&eacute;compte
+    </div>
   </div>
-</div>
 </div>
 
 <script>
 // ── AVIONS ──
-var AVIONS = ['FHREJ','FGLKO'];
-var currentAvion = localStorage.getItem('cdv_avion') || 'FHREJ';
+var avions = JSON.parse(localStorage.getItem('cdv_avions')||'["FHREJ","FGLKO"]');
+var currentAvion = localStorage.getItem('cdv_avion') || avions[0];
+
+function saveAvions(){ localStorage.setItem('cdv_avions', JSON.stringify(avions)); }
+
+function buildAvionSelect(){
+  var sel = document.getElementById('avionSelect');
+  sel.innerHTML = '';
+  avions.forEach(function(a){
+    var opt = document.createElement('option');
+    opt.value = a;
+    opt.textContent = 'F-' + a.slice(1);
+    if(a === currentAvion) opt.selected = true;
+    sel.appendChild(opt);
+  });
+}
+
+function ajouterAvion(){
+  var immat = prompt('Immatriculation (ex: FGJPT) :');
+  if(!immat) return;
+  immat = immat.toUpperCase().replace(/[^A-Z]/g,'');
+  if(immat.length < 4){ alert('Immatriculation invalide.'); return; }
+  if(avions.indexOf(immat) >= 0){ alert('Cet avion existe déjà.'); return; }
+  avions.push(immat);
+  saveAvions();
+  currentAvion = immat;
+  localStorage.setItem('cdv_avion', currentAvion);
+  buildAvionSelect();
+  restaurer();
+  calcul();
+}
 
 function onAvionChange(){
   currentAvion = document.getElementById('avionSelect').value;
@@ -304,14 +279,28 @@ function onAvionChange(){
   calcul();
 }
 
-// Init avion select
-document.getElementById('avionSelect').value = currentAvion;
-
 // ── TABS ──
+var TABS = [
+  {label:'Vol &amp; Calculs', panel:'panel-main'},
+  {label:'&#128197; Countdown', panel:'panel-countdown'}
+];
+
+function buildTabs(){
+  var nav = document.getElementById('navTabs');
+  nav.innerHTML = '';
+  TABS.forEach(function(t, i){
+    var btn = document.createElement('div');
+    btn.className = 'nav-tab' + (i===0?' active':'');
+    btn.innerHTML = t.label;
+    btn.onclick = (function(idx){ return function(){ showTab(idx); }; })(i);
+    nav.appendChild(btn);
+  });
+}
+
 function showTab(i){
-  document.querySelectorAll('.tab-content').forEach(function(t,idx){ t.classList.toggle('active', idx===i); });
   document.querySelectorAll('.nav-tab').forEach(function(t,idx){ t.classList.toggle('active', idx===i); });
-  if(i===5) renderCountdown();
+  document.querySelectorAll('.tab-panel').forEach(function(p,idx){ p.classList.toggle('active', idx===i); });
+  if(i===1) renderCountdown();
 }
 
 // ── CALCULS ──
@@ -333,8 +322,8 @@ function calcul(){
 
   if(!isNaN(hArr)&&!isNaN(horoArr)&&!isNaN(horoDep)&&horoArr>horoDep){
     var arrMin=parseHeure(hArr);
-    if(!arrMin&&arrMin!==0){clearAll();return;}
-    var dureeH=horoArr-horoDep, dureeMin=Math.round(dureeH*60), depMin=arrMin-dureeMin;
+    if(arrMin===null){clearAll();calculDate();return;}
+    var dureeH=horoArr-horoDep,dureeMin=Math.round(dureeH*60),depMin=arrMin-dureeMin;
     document.getElementById('res_duree').textContent=dureeToHHMM(dureeH);
     document.getElementById('res_loc_dep').textContent=minToHHMM(depMin);
     document.getElementById('res_loc_arr').textContent=minToHHMM(arrMin);
@@ -342,15 +331,15 @@ function calcul(){
     document.getElementById('res_utc_arr').textContent=minToHHMM(arrMin-offset*60);
     document.getElementById('utc_note').textContent='UTC'+(offset>=0?'+':'')+offset+(offset===1?" \u00b7 Heure d'\u00e9t\u00e9":" \u00b7 Heure d'hiver");
     if(!isNaN(coutH)&&!isNaN(solde)){
-      var coutVol=dureeH*coutH, reserve=coutH*(reservePct/100), soldeApres=solde-coutVol;
-      var manque=reserve-soldeApres, appro=manque>0?roundTo10(manque):0;
+      var coutVol=dureeH*coutH,reserve=coutH*(reservePct/100),soldeApres=solde-coutVol;
+      var appro=Math.max(0,roundTo10(reserve-soldeApres));
       document.getElementById('res_cout').textContent=fmtEur(coutVol);
       document.getElementById('res_reserve').textContent=fmtEur(reserve)+' ('+reservePct+'%)';
       document.getElementById('res_solde').textContent=fmtEur(soldeApres);
       document.getElementById('res_appro').textContent=appro+' \u20ac';
       var bar=document.getElementById('appro_bar');
       if(appro>0){bar.className='appro-bar needed';document.getElementById('appro_icon').textContent='\u26a0';}
-      else{bar.className='appro-bar ok';document.getElementById('appro_icon').textContent='\u2611';}
+      else{bar.className='appro-bar';document.getElementById('appro_icon').textContent='\u2611';}
     } else clearPay();
   } else clearAll();
   calculDate();
@@ -360,7 +349,7 @@ function calculDate(){
   var dateVolStr=document.getElementById('date_vol').value;
   var delai=parseInt(document.getElementById('delai_jours').value)||60;
   if(!dateVolStr){clearDate();return;}
-  var dateVol=new Date(dateVolStr), dateLimite=new Date(dateVol);
+  var dateVol=new Date(dateVolStr),dateLimite=new Date(dateVol);
   dateLimite.setDate(dateLimite.getDate()+delai);
   var today=new Date();today.setHours(0,0,0,0);
   var jr=Math.ceil((dateLimite-today)/(1000*60*60*24));
@@ -368,41 +357,35 @@ function calculDate(){
   document.getElementById('res_date_limite').textContent=fmtDate(dateLimite);
   document.getElementById('res_jours_restants').textContent=jr+' j';
   var bar=document.getElementById('date_bar'),icon=document.getElementById('date_icon'),lbl=document.getElementById('date_label_txt');
-  if(jr<0){bar.className='date-bar danger';icon.textContent='\uD83D\uDEAB';lbl.innerHTML='D\u00e9lai d\u00e9pass\u00e9 \u2014 Vol instructeur requis<span class="days-left">Depuis '+Math.abs(jr)+' jours</span>';}
-  else if(jr<=10){bar.className='date-bar danger';icon.textContent='\u26a0\uFE0F';lbl.innerHTML='Urgence \u2014 Voler tr\u00e8s rapidement\u00a0!<span class="days-left">'+jr+' jours restants</span>';}
-  else if(jr<=20){bar.className='date-bar warn';icon.textContent='\u23F3';lbl.innerHTML='Attention \u2014 Validit\u00e9 bient\u00f4t expir\u00e9e<span class="days-left">'+jr+' jours restants</span>';}
-  else{bar.className='date-bar ok';icon.textContent='\u2705';lbl.innerHTML='Validit\u00e9 OK<span class="days-left">Prochain vol avant le '+fmtDate(dateLimite)+'</span>';}
+  if(jr<0){bar.className='date-bar danger';icon.textContent='\uD83D\uDEAB';lbl.innerHTML='D\u00e9lai d\u00e9pass\u00e9 \u2014 Instructeur requis<span class="days-left">Depuis '+Math.abs(jr)+' j</span>';}
+  else if(jr<=10){bar.className='date-bar danger';icon.textContent='\u26a0\uFE0F';lbl.innerHTML='URGENCE \u2014 Voler imm\u00e9diatement !<span class="days-left">'+jr+' jours restants</span>';}
+  else if(jr<=20){bar.className='date-bar warn';icon.textContent='\u23F3';lbl.innerHTML='Attention \u2014 Bient\u00f4t expir\u00e9<span class="days-left">'+jr+' jours restants</span>';}
+  else{bar.className='date-bar ok';icon.textContent='\u2705';lbl.innerHTML='Validit\u00e9 OK<span class="days-left">Avant le '+fmtDate(dateLimite)+'</span>';}
 }
 
-// ── SAUVEGARDER VALIDITÉ AVION ──
 function sauverValiditeAvion(){
   var dateVolStr=document.getElementById('date_vol').value;
   var delai=parseInt(document.getElementById('delai_jours').value)||60;
   if(!dateVolStr){alert('Veuillez saisir la date du vol.');return;}
-  var key='cdv_valid_'+currentAvion;
-  localStorage.setItem(key, JSON.stringify({dateVol:dateVolStr, delai:delai}));
-  alert('Countdown mis \u00e0 jour pour '+currentAvion.replace('F','F-') + ' !');
+  localStorage.setItem('cdv_valid_'+currentAvion, JSON.stringify({dateVol:dateVolStr,delai:delai}));
+  alert('Countdown mis \u00e0 jour pour F-'+currentAvion.slice(1)+' !');
 }
 
-// ── COUNTDOWN MULTI-AVIONS ──
+// ── COUNTDOWN ──
 function renderCountdown(){
   var list=document.getElementById('countdownList');
   list.innerHTML='';
   var today=new Date();today.setHours(0,0,0,0);
-
-  AVIONS.forEach(function(immat){
-    var key='cdv_valid_'+immat;
-    var stored=localStorage.getItem(key);
+  if(!avions.length){list.innerHTML='<p style="color:var(--text-dim);text-align:center;padding:20px;">Aucun avion enregistr\u00e9.</p>';return;}
+  avions.forEach(function(immat){
+    var stored=localStorage.getItem('cdv_valid_'+immat);
     var card=document.createElement('div');
-    card.className='validite-avion-card';
-
+    card.className='countdown-card';
+    var immatFmt='F-'+immat.slice(1);
     if(!stored){
-      card.innerHTML='<div class="validite-avion-header">'
-        +'<div><div class="validite-avion-immat">F-'+immat.slice(1)+'</div><div class="validite-avion-type">Aucune donn\u00e9e</div></div>'
-        +'</div>'
-        +'<div class="countdown-big"><div class="countdown-number countdown-warn">--</div>'
-        +'<div class="countdown-unit">jours</div>'
-        +'<div class="countdown-label">S\u00e9lectionnez cet avion et enregistrez une date de vol</div></div>';
+      card.innerHTML='<div class="countdown-head"><div><div class="countdown-immat">'+immatFmt+'</div><div class="countdown-sub">Aucune donn\u00e9e enregistr\u00e9e</div></div></div>'
+        +'<div class="countdown-big"><div class="countdown-num c-warn">--</div><div class="countdown-unit c-warn">jours</div>'
+        +'<div class="countdown-statut">S\u00e9lectionnez cet avion et enregistrez un vol</div></div>';
     } else {
       var data=JSON.parse(stored);
       var dateVol=new Date(data.dateVol);
@@ -410,32 +393,42 @@ function renderCountdown(){
       var dateLimite=new Date(dateVol);
       dateLimite.setDate(dateLimite.getDate()+delai);
       var jr=Math.ceil((dateLimite-today)/(1000*60*60*24));
-      var cls=jr<0?'countdown-danger':jr<=10?'countdown-danger':jr<=20?'countdown-warn':'countdown-ok';
-      var statut=jr<0?'D\u00e9lai d\u00e9pass\u00e9 \u2014 Instructeur requis':jr<=10?'URGENCE \u2014 Voler imm\u00e9diatement':jr<=20?'Attention \u2014 Bient\u00f4t expir\u00e9':'Validit\u00e9 OK';
-      var icon=jr<0?'\uD83D\uDEAB':jr<=10?'\u26a0\uFE0F':jr<=20?'\u23F3':'\u2705';
-      card.innerHTML='<div class="validite-avion-header">'
-        +'<div><div class="validite-avion-immat">F-'+immat.slice(1)+'</div>'
-        +'<div class="validite-avion-type">Dernier vol : '+fmtDate(dateVol)+' &middot; D\u00e9lai : '+delai+' j</div></div>'
-        +'<span style="font-size:24px">'+icon+'</span>'
-        +'</div>'
+      var cls=jr<=0?'c-danger':jr<=10?'c-danger':jr<=20?'c-warn':'c-ok';
+      var icon=jr<=0?'\uD83D\uDEAB':jr<=10?'\u26a0\uFE0F':jr<=20?'\u23F3':'\u2705';
+      var statut=jr<=0?'D\u00e9lai d\u00e9pass\u00e9 \u2014 Instructeur requis':jr<=10?'URGENCE \u2014 Voler imm\u00e9diatement !':jr<=20?'Attention \u2014 Bient\u00f4t expir\u00e9':'Validit\u00e9 OK';
+      card.innerHTML='<div class="countdown-head"><div><div class="countdown-immat">'+immatFmt+'</div>'
+        +'<div class="countdown-sub">Dernier vol : '+fmtDate(dateVol)+' &middot; D\u00e9lai : '+delai+' j</div></div>'
+        +'<span style="font-size:26px">'+icon+'</span></div>'
         +'<div class="countdown-big">'
-          +'<div class="countdown-number '+cls+'">'+(jr<0?Math.abs(jr):jr)+'</div>'
-          +'<div class="countdown-unit '+cls+'">jours '+(jr<0?'de d\u00e9passement':'restants')+'</div>'
-          +'<div class="countdown-label">'+statut+'</div>'
-          +'<div style="font-size:10px;color:var(--text-dim);margin-top:8px">Limite : '+fmtDate(dateLimite)+'</div>'
+          +'<div class="countdown-num '+cls+'">'+(jr<=0?Math.abs(jr):jr)+'</div>'
+          +'<div class="countdown-unit '+cls+'">jours '+(jr<=0?'de d\u00e9passement':'restants')+'</div>'
+          +'<div class="countdown-statut">'+statut+'</div>'
+          +'<div class="countdown-limite">Limite : '+fmtDate(dateLimite)+'</div>'
         +'</div>';
     }
     list.appendChild(card);
   });
 }
 
-function clearDate(){
-  document.getElementById('res_date_vol').textContent='--/--/----';
-  document.getElementById('res_date_limite').textContent='--/--/----';
-  document.getElementById('res_jours_restants').textContent='-- j';
-  document.getElementById('date_bar').className='date-bar ok';
-  document.getElementById('date_icon').textContent='\uD83D\uDCC5';
-  document.getElementById('date_label_txt').innerHTML='En attente de saisie<span class="days-left"></span>';
+// ── STOCKAGE PAR AVION ──
+var FIELDS=['heure_arr','utc_offset','horo_dep','horo_arr','cout_heure','solde','reserve_pct','date_vol','delai_jours'];
+function sauvegarder(){
+  FIELDS.forEach(function(id){
+    var el=document.getElementById(id);
+    if(el) localStorage.setItem('cdv_'+id+'_'+currentAvion, el.value);
+  });
+}
+function restaurer(){
+  FIELDS.forEach(function(id){
+    var val=localStorage.getItem('cdv_'+id+'_'+currentAvion);
+    var el=document.getElementById(id);
+    if(!el) return;
+    if(val!==null&&val!=='') el.value=val;
+    else if(id==='utc_offset') el.value='1';
+    else if(id==='reserve_pct') el.value='25';
+    else if(id==='delai_jours') el.value='60';
+    else el.value='';
+  });
 }
 function clearAll(){
   document.getElementById('res_duree').textContent='--h--';
@@ -445,38 +438,26 @@ function clearAll(){
 }
 function clearPay(){
   ['res_cout','res_reserve','res_solde','res_appro'].forEach(function(id){document.getElementById(id).textContent='-- \u20ac';});
-  document.getElementById('appro_bar').className='appro-bar ok';
+  document.getElementById('appro_bar').className='appro-bar';
   document.getElementById('appro_icon').textContent='\u2611';
 }
+function clearDate(){
+  document.getElementById('res_date_vol').textContent='--/--/----';
+  document.getElementById('res_date_limite').textContent='--/--/----';
+  document.getElementById('res_jours_restants').textContent='-- j';
+  document.getElementById('date_bar').className='date-bar ok';
+  document.getElementById('date_icon').textContent='\uD83D\uDCC5';
+  document.getElementById('date_label_txt').innerHTML='En attente de saisie<span class="days-left"></span>';
+}
 function resetAll(){
-  ['heure_arr','horo_dep','horo_arr','cout_heure','solde','date_vol'].forEach(function(id){document.getElementById(id).value='';});
+  if(!confirm('R\u00e9initialiser les saisies pour '+currentAvion+'?')) return;
+  FIELDS.forEach(function(id){localStorage.removeItem('cdv_'+id+'_'+currentAvion);});
+  ['res_cout','res_reserve','res_solde','res_appro'].forEach(function(id){document.getElementById(id).textContent='-- \u20ac';});
   document.getElementById('utc_offset').value='1';
   document.getElementById('reserve_pct').value='25';
   document.getElementById('delai_jours').value='60';
-  FIELDS.forEach(function(id){localStorage.removeItem('cdv_'+id+'_'+currentAvion);});
+  ['heure_arr','horo_dep','horo_arr','cout_heure','solde','date_vol'].forEach(function(id){document.getElementById(id).value='';});
   clearAll();clearDate();
-}
-
-var FIELDS=['heure_arr','utc_offset','horo_dep','horo_arr','cout_heure','solde','reserve_pct','date_vol','delai_jours'];
-function sauvegarder(){
-  FIELDS.forEach(function(id){
-    var el=document.getElementById(id);
-    if(el) localStorage.setItem('cdv_'+id+'_'+currentAvion, el.value);
-  });
-  // Also save shared fields
-  localStorage.setItem('cdv_utc_offset', document.getElementById('utc_offset').value);
-}
-function restaurer(){
-  FIELDS.forEach(function(id){
-    var val=localStorage.getItem('cdv_'+id+'_'+currentAvion);
-    // fallback to old key for utc_offset
-    if((val===null||val==='') && id==='utc_offset') val=localStorage.getItem('cdv_'+id);
-    var el=document.getElementById(id);
-    if(el&&val!==null&&val!=='') el.value=val;
-    else if(el&&id==='utc_offset') el.value='1';
-    else if(el&&id==='reserve_pct') el.value='25';
-    else if(el&&id==='delai_jours') el.value='60';
-  });
 }
 
 document.querySelectorAll('input').forEach(function(el){
@@ -484,46 +465,33 @@ document.querySelectorAll('input').forEach(function(el){
   el.addEventListener('change',function(){calcul();sauvegarder();});
 });
 
-restaurer();calcul();
-</script>
-<script>
-if('serviceWorker' in navigator){
-  window.addEventListener('load', function(){
-    navigator.serviceWorker.register('sw.js').then(function(reg){
-      console.log('SW OK:', reg.scope);
-
-      // Détection mise à jour disponible
-      reg.addEventListener('updatefound', function(){
-        var newSW = reg.installing;
-        newSW.addEventListener('statechange', function(){
-          if(newSW.state === 'installed' && navigator.serviceWorker.controller){
-            // Nouvelle version disponible — afficher bandeau
-            showUpdateBanner();
-          }
-        });
-      });
-
-      // Vérification au démarrage uniquement (naturel via SW)
-    }).catch(function(e){ console.log('SW error:', e); });
-
-    // Rechargement automatique après màj du SW
-    navigator.serviceWorker.addEventListener('controllerchange', function(){
-      window.location.reload();
-    });
+// ── UPDATE ──
+function showUpdateBanner(){var b=document.getElementById('updateBanner');if(b)b.style.display='flex';}
+function applyUpdate(){
+  navigator.serviceWorker.getRegistration().then(function(reg){
+    if(reg&&reg.waiting) reg.waiting.postMessage('SKIP_WAITING');
+    else window.location.reload();
   });
 }
 
-function showUpdateBanner(){
-  var banner = document.getElementById('updateBanner');
-  if(banner) banner.style.display = 'flex';
-}
-function applyUpdate(){
-  navigator.serviceWorker.getRegistration().then(function(reg){
-    if(reg && reg.waiting){
-      reg.waiting.postMessage('SKIP_WAITING');
-    } else {
-      window.location.reload();
-    }
+// ── INIT ──
+buildTabs();
+buildAvionSelect();
+restaurer();
+calcul();
+</script>
+<script>
+if('serviceWorker' in navigator){
+  window.addEventListener('load',function(){
+    navigator.serviceWorker.register('sw.js').then(function(reg){
+      reg.addEventListener('updatefound',function(){
+        var sw=reg.installing;
+        sw.addEventListener('statechange',function(){
+          if(sw.state==='installed'&&navigator.serviceWorker.controller) showUpdateBanner();
+        });
+      });
+    }).catch(function(e){console.log('SW error:',e);});
+    navigator.serviceWorker.addEventListener('controllerchange',function(){window.location.reload();});
   });
 }
 </script>
