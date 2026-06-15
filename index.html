@@ -18,20 +18,30 @@
   --green:#2ecc71; --green-bg:rgba(46,204,113,0.15); --green-border:#27ae60;
   --red:#e74c3c; --blue-accent:#4a9eff;
   --text:#e8eef8; --text-mid:#8aa0c0; --text-dim:#4a6080;
-  --mono:'DM Mono',monospace; --sans:'DM Sans',sans-serif; --radius:6px;
+  --sans:-apple-system,'SF Pro Display',Arial,sans-serif;
+  --mono:'Courier New',Courier,monospace;
+  --radius:6px;
 }
 * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-body { background:var(--bg); color:var(--text); font-family:var(--sans); min-height:100vh; padding-bottom:24px; }
+body { background:var(--bg); color:var(--text); font-family:var(--sans); min-height:100vh; padding-bottom:32px; }
 
 .app-header { background:var(--panel2); border-bottom:2px solid var(--orange); padding:12px 14px 10px; display:flex; align-items:center; gap:10px; }
 .app-header .icon { font-size:20px; }
 .app-header h1 { font-family:var(--sans); font-weight:700; font-size:15px; color:var(--text); letter-spacing:1px; text-transform:uppercase; flex:1; }
 .app-header .sub { font-size:9px; color:var(--text-dim); letter-spacing:1px; }
 
+/* AVION SELECTOR */
+.avion-bar { background:var(--panel); border-bottom:1px solid var(--border); padding:10px 14px; display:flex; align-items:center; gap:10px; }
+.avion-bar label { font-size:10px; font-weight:700; color:var(--text-mid); text-transform:uppercase; letter-spacing:1px; white-space:nowrap; }
+.avion-select { flex:1; background:var(--orange); color:#1a1000; border:none; border-radius:8px; padding:10px 12px; font-size:16px; font-weight:800; font-family:var(--mono); text-align:center; -webkit-appearance:none; appearance:none; cursor:pointer; }
+
 .nav-tabs { background:var(--panel); border-bottom:1px solid var(--border); display:flex; overflow-x:auto; scrollbar-width:none; }
 .nav-tabs::-webkit-scrollbar { display:none; }
-.nav-tab { padding:8px 14px; font-size:11px; font-weight:600; color:var(--text-mid); white-space:nowrap; border-bottom:2px solid transparent; cursor:pointer; letter-spacing:0.5px; }
+.nav-tab { padding:8px 14px; font-size:11px; font-weight:600; color:var(--text-mid); white-space:nowrap; border-bottom:2px solid transparent; cursor:pointer; letter-spacing:0.5px; flex-shrink:0; }
 .nav-tab.active { color:var(--orange); border-bottom-color:var(--orange); }
+
+.tab-content { display:none; }
+.tab-content.active { display:block; }
 
 .content { padding:12px; display:flex; flex-direction:column; gap:12px; }
 
@@ -59,9 +69,6 @@ body { background:var(--bg); color:var(--text); font-family:var(--sans); min-hei
 .result-sep { padding:6px 12px 4px; font-size:9px; font-weight:700; color:var(--text-dim); text-transform:uppercase; letter-spacing:2px; background:var(--panel2); border-bottom:1px solid var(--border); }
 .val-orange { color:var(--orange) !important; } .val-green { color:var(--green) !important; } .val-blue { color:var(--blue-accent) !important; } .val-red { color:var(--red) !important; }
 
-.btn-orange { width:100%; padding:14px; background:var(--orange); border:none; color:#1a1000; font-family:var(--sans); font-size:14px; font-weight:700; cursor:pointer; letter-spacing:0.5px; transition:background 0.15s; border-radius:0; }
-.btn-orange:active { background:var(--orange-dark); }
-
 .appro-bar { margin:0; padding:13px 14px; background:var(--green-bg); border:1px solid var(--green-border); border-radius:4px; display:flex; align-items:center; justify-content:space-between; gap:10px; }
 .appro-bar .appro-label { display:flex; align-items:center; gap:8px; font-size:12px; font-weight:600; color:var(--green); }
 .appro-bar .appro-label .check { font-size:16px; }
@@ -71,7 +78,6 @@ body { background:var(--bg); color:var(--text); font-family:var(--sans); min-hei
 .appro-bar.needed .appro-label, .appro-bar.needed .appro-value { color:var(--orange); }
 
 .utc-note { font-size:9px; color:var(--text-dim); text-align:center; padding:7px 12px; background:var(--panel2); border-top:1px solid var(--border); letter-spacing:1px; }
-
 .info-box { border-top:1px dashed var(--border); padding:10px 12px; font-size:10px; color:var(--text-dim); line-height:1.7; }
 .info-box strong { color:var(--orange); }
 
@@ -86,11 +92,41 @@ body { background:var(--bg); color:var(--text); font-family:var(--sans); min-hei
 .date-bar.ok .date-value { color:var(--green); } .date-bar.warn .date-value { color:var(--orange); } .date-bar.danger .date-value { color:var(--red); }
 .days-left { font-size:10px; font-weight:400; opacity:0.8; display:block; }
 
+/* ── VALIDITÉ MULTI-AVIONS ── */
+.validite-avion-card {
+  background:var(--panel); border:1px solid var(--border); border-radius:12px; overflow:hidden; margin-bottom:16px;
+}
+.validite-avion-header {
+  background:var(--panel2); padding:10px 14px; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid var(--border);
+}
+.validite-avion-immat { font-family:var(--mono); font-size:18px; font-weight:700; color:var(--orange); letter-spacing:2px; }
+.validite-avion-type { font-size:10px; color:var(--text-dim); }
+
+.countdown-big { text-align:center; padding:20px 14px 14px; }
+.countdown-number { font-family:var(--mono); font-size:72px; font-weight:700; line-height:1; }
+.countdown-unit { font-size:16px; font-weight:400; color:var(--text-mid); margin-top:4px; }
+.countdown-label { font-size:11px; color:var(--text-dim); margin-top:8px; letter-spacing:1px; text-transform:uppercase; }
+.countdown-ok { color:var(--green); }
+.countdown-warn { color:var(--orange); }
+.countdown-danger { color:var(--red); }
+
+.validite-avion-saisie { padding:12px 14px; border-top:1px solid var(--border); background:var(--panel2); }
+.validite-avion-saisie label { font-size:9px; font-weight:700; color:var(--text-mid); text-transform:uppercase; letter-spacing:1px; display:block; margin-bottom:6px; }
+.validite-avion-row { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.validite-avion-input { background:var(--bg); border:1px solid var(--border); border-radius:4px; color:var(--text); font-family:var(--mono); font-size:14px; padding:8px; width:100%; outline:none; text-align:center; -webkit-appearance:none; }
+.validite-avion-input:focus { border-color:var(--orange); }
+
 .btn-reset { width:100%; padding:12px; background:transparent; border:1px solid var(--border); color:var(--text-dim); font-family:var(--sans); font-size:12px; font-weight:600; cursor:pointer; border-radius:var(--radius); letter-spacing:1px; text-transform:uppercase; transition:all 0.15s; }
 .btn-reset:active { border-color:var(--red); color:var(--red); }
 </style>
 </head>
 <body>
+
+<!-- BANDEAU MISE À JOUR -->
+<div id="updateBanner" style="display:none;position:fixed;top:0;left:0;right:0;z-index:999;background:#f0a500;color:#1a1000;padding:10px 14px;align-items:center;justify-content:space-between;gap:10px;font-family:var(--sans);font-size:13px;font-weight:600;">
+  <span>&#127381; Nouvelle version disponible !</span>
+  <button onclick="applyUpdate()" style="background:#1a1000;color:#f0a500;border:none;border-radius:6px;padding:7px 14px;font-weight:700;font-size:12px;cursor:pointer;">Mettre à jour</button>
+</div>
 
 <div class="app-header">
   <span class="icon">&#9992;&#65039;</span>
@@ -100,16 +136,28 @@ body { background:var(--bg); color:var(--text); font-family:var(--sans); min-hei
   </div>
 </div>
 
-<div class="nav-tabs">
-  <div class="nav-tab active">1&middot;Horodateur</div>
-  <div class="nav-tab">2&middot;Heures</div>
-  <div class="nav-tab">3&middot;UTC</div>
-  <div class="nav-tab">4&middot;Paiement</div>
-  <div class="nav-tab">5&middot;Validit&eacute;</div>
+<!-- SÉLECTEUR AVION -->
+<div class="avion-bar">
+  <label>&#9992; Avion</label>
+  <select class="avion-select" id="avionSelect" onchange="onAvionChange()">
+    <option value="FHREJ">F-HREJ</option>
+    <option value="FGLKO">F-GLKO</option>
+  </select>
 </div>
 
-<div class="content">
+<!-- ONGLETS -->
+<div class="nav-tabs">
+  <div class="nav-tab active" onclick="showTab(0)">1&middot;Horodateur</div>
+  <div class="nav-tab" onclick="showTab(1)">2&middot;Heures</div>
+  <div class="nav-tab" onclick="showTab(2)">3&middot;UTC</div>
+  <div class="nav-tab" onclick="showTab(3)">4&middot;Paiement</div>
+  <div class="nav-tab" onclick="showTab(4)">5&middot;Validit&eacute;</div>
+  <div class="nav-tab" onclick="showTab(5)">&#128197;&middot;Countdown</div>
+</div>
 
+<!-- ONGLET 1-4 : contenu existant -->
+<div class="tab-content active" id="tab0">
+<div class="content">
   <div class="card">
     <div class="section-title"><div class="dot"></div><h2>Donn&eacute;es &agrave; saisir</h2></div>
     <div class="fields">
@@ -214,23 +262,65 @@ body { background:var(--bg); color:var(--text); font-family:var(--sans); min-hei
     </div>
     <div style="padding:12px;">
       <div class="date-bar ok" id="date_bar">
-        <div class="date-label"><span class="date-icon" id="date_icon">&#128197;</span><span id="date_label_txt">En attente de saisie<span class="days-left" id="days_left_txt"></span></span></div>
+        <div class="date-label"><span class="date-icon" id="date_icon">&#128197;</span><span id="date_label_txt">En attente de saisie<span class="days-left"></span></span></div>
         <div class="date-value" id="res_jours_restants">-- j</div>
       </div>
+    </div>
+    <div style="padding:12px; padding-top:0;">
+      <button onclick="sauverValiditeAvion()" style="width:100%;padding:11px;background:var(--orange);border:none;border-radius:8px;color:#1a1000;font-family:var(--sans);font-size:13px;font-weight:700;cursor:pointer;letter-spacing:0.5px;">
+        &#128190; Enregistrer dans Countdown
+      </button>
     </div>
     <div class="info-box"><strong>R&egrave;gle :</strong> Prochain vol solo obligatoire dans le d&eacute;lai saisi.<br>&Agrave; d&eacute;faut, vol avec instructeur requis avant de revoler seul.</div>
   </div>
 
   <button class="btn-reset" onclick="resetAll()">&#8634; &nbsp; R&eacute;initialiser</button>
+</div>
+</div>
 
+<!-- ONGLET COUNTDOWN -->
+<div class="tab-content" id="tab5">
+<div class="content">
+  <div id="countdownList"></div>
+  <div class="info-box" style="background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);margin-top:4px;">
+    <strong>Comment utiliser :</strong><br>
+    1. S&eacute;lectionnez l&apos;avion en haut<br>
+    2. Dans l&apos;onglet Validit&eacute;, saisissez la date du dernier vol et le d&eacute;lai<br>
+    3. Appuyez sur &laquo;&nbsp;Enregistrer dans Countdown&nbsp;&raquo;<br>
+    4. Revenez ici pour voir le d&eacute;compte
+  </div>
+</div>
 </div>
 
 <script>
+// ── AVIONS ──
+var AVIONS = ['FHREJ','FGLKO'];
+var currentAvion = localStorage.getItem('cdv_avion') || 'FHREJ';
+
+function onAvionChange(){
+  currentAvion = document.getElementById('avionSelect').value;
+  localStorage.setItem('cdv_avion', currentAvion);
+  restaurer();
+  calcul();
+}
+
+// Init avion select
+document.getElementById('avionSelect').value = currentAvion;
+
+// ── TABS ──
+function showTab(i){
+  document.querySelectorAll('.tab-content').forEach(function(t,idx){ t.classList.toggle('active', idx===i); });
+  document.querySelectorAll('.nav-tab').forEach(function(t,idx){ t.classList.toggle('active', idx===i); });
+  if(i===5) renderCountdown();
+}
+
+// ── CALCULS ──
 function parseHeure(val){var v=Math.round(val),h=Math.floor(v/100),m=v%100;if(h>23||m>59)return null;return h*60+m;}
 function minToHHMM(t){t=((t%1440)+1440)%1440;return String(Math.floor(t/60)).padStart(2,'0')+':'+String(t%60).padStart(2,'0');}
 function dureeToHHMM(d){var m=Math.round(d*60);return String(Math.floor(m/60)).padStart(2,'0')+'h'+String(m%60).padStart(2,'0');}
 function roundTo10(v){return Math.round(v/10)*10;}
 function fmtEur(v){return v.toFixed(2).replace('.',',')+' \u20ac';}
+function fmtDate(d){return d.toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit',year:'numeric'});}
 
 function calcul(){
   var hArr=parseFloat(document.getElementById('heure_arr').value);
@@ -251,7 +341,6 @@ function calcul(){
     document.getElementById('res_utc_dep').textContent=minToHHMM(depMin-offset*60);
     document.getElementById('res_utc_arr').textContent=minToHHMM(arrMin-offset*60);
     document.getElementById('utc_note').textContent='UTC'+(offset>=0?'+':'')+offset+(offset===1?" \u00b7 Heure d'\u00e9t\u00e9":" \u00b7 Heure d'hiver");
-
     if(!isNaN(coutH)&&!isNaN(solde)){
       var coutVol=dureeH*coutH, reserve=coutH*(reservePct/100), soldeApres=solde-coutVol;
       var manque=reserve-soldeApres, appro=manque>0?roundTo10(manque):0;
@@ -274,16 +363,70 @@ function calculDate(){
   var dateVol=new Date(dateVolStr), dateLimite=new Date(dateVol);
   dateLimite.setDate(dateLimite.getDate()+delai);
   var today=new Date();today.setHours(0,0,0,0);
-  var joursRestants=Math.ceil((dateLimite-today)/(1000*60*60*24));
-  var fmtDate=function(d){return d.toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit',year:'numeric'});};
+  var jr=Math.ceil((dateLimite-today)/(1000*60*60*24));
   document.getElementById('res_date_vol').textContent=fmtDate(dateVol);
   document.getElementById('res_date_limite').textContent=fmtDate(dateLimite);
-  document.getElementById('res_jours_restants').textContent=joursRestants+' j';
+  document.getElementById('res_jours_restants').textContent=jr+' j';
   var bar=document.getElementById('date_bar'),icon=document.getElementById('date_icon'),lbl=document.getElementById('date_label_txt');
-  if(joursRestants<0){bar.className='date-bar danger';icon.textContent='\uD83D\uDEAB';lbl.innerHTML='D\u00e9lai d\u00e9pass\u00e9 \u2014 Vol instructeur requis<span class="days-left">Depuis '+Math.abs(joursRestants)+' jours</span>';}
-  else if(joursRestants<=10){bar.className='date-bar danger';icon.textContent='\u26a0\uFE0F';lbl.innerHTML='Urgence \u2014 Voler tr\u00e8s rapidement\u00a0!<span class="days-left">'+joursRestants+' jours restants</span>';}
-  else if(joursRestants<=20){bar.className='date-bar warn';icon.textContent='\u23F3';lbl.innerHTML='Attention \u2014 Validit\u00e9 bient\u00f4t expir\u00e9e<span class="days-left">'+joursRestants+' jours restants</span>';}
+  if(jr<0){bar.className='date-bar danger';icon.textContent='\uD83D\uDEAB';lbl.innerHTML='D\u00e9lai d\u00e9pass\u00e9 \u2014 Vol instructeur requis<span class="days-left">Depuis '+Math.abs(jr)+' jours</span>';}
+  else if(jr<=10){bar.className='date-bar danger';icon.textContent='\u26a0\uFE0F';lbl.innerHTML='Urgence \u2014 Voler tr\u00e8s rapidement\u00a0!<span class="days-left">'+jr+' jours restants</span>';}
+  else if(jr<=20){bar.className='date-bar warn';icon.textContent='\u23F3';lbl.innerHTML='Attention \u2014 Validit\u00e9 bient\u00f4t expir\u00e9e<span class="days-left">'+jr+' jours restants</span>';}
   else{bar.className='date-bar ok';icon.textContent='\u2705';lbl.innerHTML='Validit\u00e9 OK<span class="days-left">Prochain vol avant le '+fmtDate(dateLimite)+'</span>';}
+}
+
+// ── SAUVEGARDER VALIDITÉ AVION ──
+function sauverValiditeAvion(){
+  var dateVolStr=document.getElementById('date_vol').value;
+  var delai=parseInt(document.getElementById('delai_jours').value)||60;
+  if(!dateVolStr){alert('Veuillez saisir la date du vol.');return;}
+  var key='cdv_valid_'+currentAvion;
+  localStorage.setItem(key, JSON.stringify({dateVol:dateVolStr, delai:delai}));
+  alert('Countdown mis \u00e0 jour pour '+currentAvion.replace('F','F-') + ' !');
+}
+
+// ── COUNTDOWN MULTI-AVIONS ──
+function renderCountdown(){
+  var list=document.getElementById('countdownList');
+  list.innerHTML='';
+  var today=new Date();today.setHours(0,0,0,0);
+
+  AVIONS.forEach(function(immat){
+    var key='cdv_valid_'+immat;
+    var stored=localStorage.getItem(key);
+    var card=document.createElement('div');
+    card.className='validite-avion-card';
+
+    if(!stored){
+      card.innerHTML='<div class="validite-avion-header">'
+        +'<div><div class="validite-avion-immat">F-'+immat.slice(1)+'</div><div class="validite-avion-type">Aucune donn\u00e9e</div></div>'
+        +'</div>'
+        +'<div class="countdown-big"><div class="countdown-number countdown-warn">--</div>'
+        +'<div class="countdown-unit">jours</div>'
+        +'<div class="countdown-label">S\u00e9lectionnez cet avion et enregistrez une date de vol</div></div>';
+    } else {
+      var data=JSON.parse(stored);
+      var dateVol=new Date(data.dateVol);
+      var delai=data.delai||60;
+      var dateLimite=new Date(dateVol);
+      dateLimite.setDate(dateLimite.getDate()+delai);
+      var jr=Math.ceil((dateLimite-today)/(1000*60*60*24));
+      var cls=jr<0?'countdown-danger':jr<=10?'countdown-danger':jr<=20?'countdown-warn':'countdown-ok';
+      var statut=jr<0?'D\u00e9lai d\u00e9pass\u00e9 \u2014 Instructeur requis':jr<=10?'URGENCE \u2014 Voler imm\u00e9diatement':jr<=20?'Attention \u2014 Bient\u00f4t expir\u00e9':'Validit\u00e9 OK';
+      var icon=jr<0?'\uD83D\uDEAB':jr<=10?'\u26a0\uFE0F':jr<=20?'\u23F3':'\u2705';
+      card.innerHTML='<div class="validite-avion-header">'
+        +'<div><div class="validite-avion-immat">F-'+immat.slice(1)+'</div>'
+        +'<div class="validite-avion-type">Dernier vol : '+fmtDate(dateVol)+' &middot; D\u00e9lai : '+delai+' j</div></div>'
+        +'<span style="font-size:24px">'+icon+'</span>'
+        +'</div>'
+        +'<div class="countdown-big">'
+          +'<div class="countdown-number '+cls+'">'+(jr<0?Math.abs(jr):jr)+'</div>'
+          +'<div class="countdown-unit '+cls+'">jours '+(jr<0?'de d\u00e9passement':'restants')+'</div>'
+          +'<div class="countdown-label">'+statut+'</div>'
+          +'<div style="font-size:10px;color:var(--text-dim);margin-top:8px">Limite : '+fmtDate(dateLimite)+'</div>'
+        +'</div>';
+    }
+    list.appendChild(card);
+  });
 }
 
 function clearDate(){
@@ -292,7 +435,7 @@ function clearDate(){
   document.getElementById('res_jours_restants').textContent='-- j';
   document.getElementById('date_bar').className='date-bar ok';
   document.getElementById('date_icon').textContent='\uD83D\uDCC5';
-  document.getElementById('date_label_txt').innerHTML='En attente de saisie<span class="days-left" id="days_left_txt"></span>';
+  document.getElementById('date_label_txt').innerHTML='En attente de saisie<span class="days-left"></span>';
 }
 function clearAll(){
   document.getElementById('res_duree').textContent='--h--';
@@ -310,25 +453,79 @@ function resetAll(){
   document.getElementById('utc_offset').value='1';
   document.getElementById('reserve_pct').value='25';
   document.getElementById('delai_jours').value='60';
-  FIELDS.forEach(function(id){localStorage.removeItem('cdv_'+id);});
+  FIELDS.forEach(function(id){localStorage.removeItem('cdv_'+id+'_'+currentAvion);});
   clearAll();clearDate();
 }
 
 var FIELDS=['heure_arr','utc_offset','horo_dep','horo_arr','cout_heure','solde','reserve_pct','date_vol','delai_jours'];
-function sauvegarder(){FIELDS.forEach(function(id){var el=document.getElementById(id);if(el)localStorage.setItem('cdv_'+id,el.value);});}
-function restaurer(){FIELDS.forEach(function(id){var val=localStorage.getItem('cdv_'+id),el=document.getElementById(id);if(el&&val!==null&&val!=='')el.value=val;});}
+function sauvegarder(){
+  FIELDS.forEach(function(id){
+    var el=document.getElementById(id);
+    if(el) localStorage.setItem('cdv_'+id+'_'+currentAvion, el.value);
+  });
+  // Also save shared fields
+  localStorage.setItem('cdv_utc_offset', document.getElementById('utc_offset').value);
+}
+function restaurer(){
+  FIELDS.forEach(function(id){
+    var val=localStorage.getItem('cdv_'+id+'_'+currentAvion);
+    // fallback to old key for utc_offset
+    if((val===null||val==='') && id==='utc_offset') val=localStorage.getItem('cdv_'+id);
+    var el=document.getElementById(id);
+    if(el&&val!==null&&val!=='') el.value=val;
+    else if(el&&id==='utc_offset') el.value='1';
+    else if(el&&id==='reserve_pct') el.value='25';
+    else if(el&&id==='delai_jours') el.value='60';
+  });
+}
 
 document.querySelectorAll('input').forEach(function(el){
   el.addEventListener('input',function(){calcul();sauvegarder();});
   el.addEventListener('change',function(){calcul();sauvegarder();});
 });
-document.getElementById('date_vol').addEventListener('change',calculDate);
-document.getElementById('delai_jours').addEventListener('input',calculDate);
 
 restaurer();calcul();
 </script>
 <script>
-if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').then(function(r){console.log('SW:',r.scope);}).catch(function(e){console.log('SW error:',e);});});}
+if('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('sw.js').then(function(reg){
+      console.log('SW OK:', reg.scope);
+
+      // Détection mise à jour disponible
+      reg.addEventListener('updatefound', function(){
+        var newSW = reg.installing;
+        newSW.addEventListener('statechange', function(){
+          if(newSW.state === 'installed' && navigator.serviceWorker.controller){
+            // Nouvelle version disponible — afficher bandeau
+            showUpdateBanner();
+          }
+        });
+      });
+
+      // Vérification au démarrage uniquement (naturel via SW)
+    }).catch(function(e){ console.log('SW error:', e); });
+
+    // Rechargement automatique après màj du SW
+    navigator.serviceWorker.addEventListener('controllerchange', function(){
+      window.location.reload();
+    });
+  });
+}
+
+function showUpdateBanner(){
+  var banner = document.getElementById('updateBanner');
+  if(banner) banner.style.display = 'flex';
+}
+function applyUpdate(){
+  navigator.serviceWorker.getRegistration().then(function(reg){
+    if(reg && reg.waiting){
+      reg.waiting.postMessage('SKIP_WAITING');
+    } else {
+      window.location.reload();
+    }
+  });
+}
 </script>
 </body>
 </html>
