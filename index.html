@@ -401,10 +401,12 @@ function renderCountdown(){
     var card=document.createElement('div');
     card.className='countdown-card';
     var immatFmt='F-'+immat.slice(1);
+    var btnDel='<button onclick="supprimerAvion2(\''+immat+'\')" style="background:rgba(231,76,60,0.15);border:1px solid var(--red);color:var(--red);border-radius:6px;padding:6px 10px;font-size:12px;cursor:pointer;" title="Supprimer cet avion">&#128465; Supprimer l\'avion</button>';
     if(!stored){
       card.innerHTML='<div class="countdown-head"><div><div class="countdown-immat">'+immatFmt+'</div><div class="countdown-sub">Aucune donn\u00e9e enregistr\u00e9e</div></div></div>'
         +'<div class="countdown-big"><div class="countdown-num c-warn">--</div><div class="countdown-unit c-warn">jours</div>'
-        +'<div class="countdown-statut">S\u00e9lectionnez cet avion et enregistrez un vol</div></div>';
+        +'<div class="countdown-statut">S\u00e9lectionnez cet avion et enregistrez un vol</div></div>'
+        +'<div style="padding:10px 14px;border-top:1px solid var(--border);">'+btnDel+'</div>';
     } else {
       var data=JSON.parse(stored);
       var dateVol=new Date(data.dateVol);
@@ -417,19 +419,39 @@ function renderCountdown(){
       var statut=jr<=0?'D\u00e9lai d\u00e9pass\u00e9 \u2014 Instructeur requis':jr<=10?'URGENCE \u2014 Voler imm\u00e9diatement !':jr<=20?'Attention \u2014 Bient\u00f4t expir\u00e9':'Validit\u00e9 OK';
       card.innerHTML='<div class="countdown-head"><div><div class="countdown-immat">'+immatFmt+'</div>'
         +'<div class="countdown-sub">Dernier vol : '+fmtDate(dateVol)+' &middot; D\u00e9lai : '+delai+' j</div></div>'
-        +'<div style="display:flex;align-items:center;gap:8px;">'
-        +'<span style="font-size:26px">'+icon+'</span>'
-        +'<button onclick="effacerCountdown(\''+immat+'\')" style="background:rgba(231,76,60,0.15);border:1px solid var(--red);color:var(--red);border-radius:6px;padding:6px 10px;font-size:12px;cursor:pointer;">&#128465;</button>'
-        +'</div></div>'
+        +'<span style="font-size:26px">'+icon+'</span></div>'
         +'<div class="countdown-big">'
           +'<div class="countdown-num '+cls+'">'+(jr<=0?Math.abs(jr):jr)+'</div>'
           +'<div class="countdown-unit '+cls+'">jours '+(jr<=0?'de d\u00e9passement':'restants')+'</div>'
           +'<div class="countdown-statut">'+statut+'</div>'
           +'<div class="countdown-limite">Limite : '+fmtDate(dateLimite)+'</div>'
+        +'</div>'
+        +'<div style="padding:10px 14px;border-top:1px solid var(--border);display:flex;gap:8px;">'
+          +'<button onclick="effacerCountdown(\''+immat+'\')" style="flex:1;background:rgba(245,165,0,0.12);border:1px solid var(--orange);color:var(--orange);border-radius:6px;padding:8px;font-size:12px;cursor:pointer;">&#8635; Effacer les dates</button>'
+          +btnDel
         +'</div>';
     }
     list.appendChild(card);
   });
+}
+
+function supprimerAvion2(immat){
+  if(avions.length <= 1){ alert('Impossible de supprimer le dernier avion.'); return; }
+  var immatFmt = 'F-' + immat.slice(1);
+  if(!confirm('Supprimer ' + immatFmt + ' et toutes ses données ?')) return;
+  var FIELDS_LOCAL = ['heure_arr','utc_offset','horo_dep','horo_arr','cout_heure','solde','reserve_pct','date_vol','delai_jours'];
+  FIELDS_LOCAL.forEach(function(id){ localStorage.removeItem('cdv_'+id+'_'+immat); });
+  localStorage.removeItem('cdv_valid_'+immat);
+  avions = avions.filter(function(a){ return a !== immat; });
+  saveAvions();
+  if(currentAvion === immat){
+    currentAvion = avions[0];
+    localStorage.setItem('cdv_avion', currentAvion);
+  }
+  buildAvionSelect();
+  renderCountdown();
+  restaurer();
+  calcul();
 }
 
 function effacerCountdown(immat){
